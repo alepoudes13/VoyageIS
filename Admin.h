@@ -6,21 +6,21 @@
 
 class Admin : private User {
 	Authorization* auth;
-	void startAccountModule(); //Запуск модуля работы с аккаунтами
-	void startDataModule(); //Запуск модуля работы с данными
-	void editAccount(); //Редактировать аккаунт
-	void changeLogin(int index); //Изменить логин
-	void changePassword(int index); //Изменить пароль
-	void changeRole(int index); //Изменить уровень доступа
-	void deleteAccount(); //Удалить аккаунт
-	void verify(); //Разрешить доступ
-	void block(); //Запретить доступ
+	void startAccountModule(); 
+	void startDataModule(); 
+	void editAccount(); 
+	void changeLogin(int index); 
+	void changePassword(int index); 
+	void changeRole(int index); 
+	void deleteAccount(); 
+	void verify(); 
+	void block(); 
 	//------------
-	void addPlane(); //Добавить рейс
-	void editPlane(); //Редактировать рейс
-	void deletePlane(); //Удалить рейс
+	void addPlane(); 
+	void editPlane(); 
+	void deletePlane(); 
 public:
 	Admin(Authorization* auth);
-	void startMainModule(); //Запуск модуля администратора
+	void startMainModule();
 };
 

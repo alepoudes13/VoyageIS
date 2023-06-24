@@ -26,25 +26,25 @@ void Authorization::protectedInput(std::string& password) {
 
 void Authorization::startModule(bool isLoggingNeeded) {
 	std::string login, password;
-	std::cout << "Введите логин - ";
+	std::cout << "Enter login - ";
 	std::cin >> login;
-	std::cout << "Введите пароль - ";
+	std::cout << "Enter password - ";
 	this->protectedInput(password);
 	int index = this->accountDatabase->addAccount(login, password);
 	Account acc = this->accountDatabase->getAtIndex(index);
 	if (acc.tryPassword(password)) {
 		if (acc.getAccess() == false) {
-			std::cout << "Вы были внесены в базу. Ожидайте подтверждения регистрации администратором.\n";
+			std::cout << "You were added to the database. Wait for a confirmation from an administrator.\n";
 			if (isLoggingNeeded)
 				this->activeAccount = Account();
 		}
 		else if (isLoggingNeeded)
 			this->activeAccount = this->accountDatabase->getAtIndex(index);
 		else
-			std::cout << "Вы ввели корректные данные существующего аккаунта.\n";
+			std::cout << "You have entered data of an existing account.\n";
 	}
 	else {
-		std::cout << "Некорректный пароль\n";
+		std::cout << "Invalid password\n";
 		if(isLoggingNeeded)
 			this->activeAccount = Account();
 	}

@@ -6,10 +6,10 @@
 class Account {
 public:
     enum Role { USER, ADMIN, EMPTY };
-    const std::string rolesArray[3] = { "Пользователь", "Админ", "Пустой" };
+    const std::string rolesArray[3] = { "User", "Admin", "Empty" };
     const int columnWidth[6] = { 10, 30, 30, 30, 15, 10}, argsCnt = 6;
     friend void printRow(const Account& account, int index);
-    //Сеттеры, геттеры, компараторы
+
     bool compareLogin(std::string login) { return this->login == login; }
     bool compareLogin(Account account) { return this->login == account.login; }
     void setLogin(std::string login) { this->login = login; }
@@ -29,6 +29,6 @@ private:
     std::string login, saltedHashPassword, salt;
     Role role;
     bool access;
-    void generateSalt(); //Сгенерировать случайную соль
-    std::string saltifyPassword(std::string password); //Зашифровать пароль солью
+    void generateSalt();
+    std::string saltifyPassword(std::string password);
 };

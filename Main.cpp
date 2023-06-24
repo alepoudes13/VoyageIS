@@ -12,10 +12,10 @@ int main()
     int actionCase;
     enum State{Exit, Authorize};
     vector<string> menuLines = {
-        "Выход.",
-        "Авторизация."
+        "Exit.",
+        "Authorization."
     };
-    string title = "--------Добро пожаловать---------------------";
+    string title = "--------Welcome------------------------------";
     Menu menu(title, menuLines);
 
     do {

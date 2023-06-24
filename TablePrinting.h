@@ -5,17 +5,17 @@
 #include <string>
 #include <vector>
 
-int getWidth(int number); //Получить ширину в символах объекта типа int
-int getWidth(Date date); //Получить ширину в символах объекта типа Date
-int getWidth(Time time); //Получить ширину в символах объекта типа Time
-int getWidth(std::string str); //Получить ширину в символах объекта типа string
+int getWidth(int number); 
+int getWidth(Date date); 
+int getWidth(Time time); 
+int getWidth(std::string str);
 
 template<typename T>
-void printColumn(T obj, int columnWidth); //Вывести объект в ячейку таблицы указанной ширины
+void printColumn(T obj, int columnWidth);
 
-void printSeparator(int width, char ch); //Вывести разделитель указанной ширины между строками таблицы
-void printRow(const Plane& plane, int index); //Вывести данные рейса в строку таблицы
-void printRow(const Account& account, int index); //Вывести данные аккаунта в строку таблицы
+void printSeparator(int width, char ch);
+void printRow(const Plane& plane, int index);
+void printRow(const Account& account, int index);
 
-void printRow(Plane tableType, std::vector<std::string> values); //Вывести шапку таблицы рейсов
-void printRow(Account tableType, std::vector<std::string> values); //Вывести шапку таблицы аккаунтов
+void printRow(Plane tableType, std::vector<std::string> values); 
+void printRow(Account tableType, std::vector<std::string> values);

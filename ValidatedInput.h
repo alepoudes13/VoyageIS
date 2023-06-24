@@ -7,5 +7,4 @@
 #pragma warning(disable:4996)
 #endif
 
-//Проверка корректности типов введенных переменных с задаваемым сообщением
 void сustValidatedInput(const char* premise, int argsCount, const char* format, ...);

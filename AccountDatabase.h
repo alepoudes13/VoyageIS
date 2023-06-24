@@ -10,14 +10,13 @@ class AccountDatabase {
     std::vector<Account> accounts;
     Account accountsVector[100];
 public:
-    const std::vector<std::string> columnNames = { "Индекс", "Логин", "Пароль(под солью)", "Соль", "Роль", "Доступ" };
+    const std::vector<std::string> columnNames = { "Index", "Login", "Salted password", "Salt", "Role", "Access" };
     AccountDatabase();
     ~AccountDatabase();
-    void show(); //Вывести данные аккаунтов таблицей
-    int addAccount(std::string login, std::string password); //Добавить аккаунт в базу, вернуть индекс
-    int findByLogin(std::string login); //Найти индекс аккаунта в базе по логину
-    Account getAtIndex(int index); //Вернуть аккаунт по индексу в базе
-    void setAtIndex(int index, Account account); //Установить аккаунт в позицию индекса в базе
-    void deleteAtIndex(int index); //Удалить аккаунт из базы по индексу
+    void show();
+    int addAccount(std::string login, std::string password);
+    int findByLogin(std::string login);
+    Account getAtIndex(int index);
+    void setAtIndex(int index, Account account);
+    void deleteAtIndex(int index);
 };
-

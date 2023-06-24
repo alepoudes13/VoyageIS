@@ -52,37 +52,37 @@ Plane& Plane::operator=(const Plane& other) {
 void Plane::read() {
 	int buffer, buffer2;
 	do {
-		сustValidatedInput("Номер: ", 1, "%d", &buffer);
+		сustValidatedInput("Number: ", 1, "%d", &buffer);
 	} while (buffer < 0);
 	this->number = static_cast<size_t>(buffer);
 	do {
-		сustValidatedInput("Цена билета бизнес/эконом: ", 2, "%d/%d", &buffer, &buffer2);
+		сustValidatedInput("Ticket price bussiness/econom: ", 2, "%d/%d", &buffer, &buffer2);
 	} while (buffer < 0 || buffer2 < 0);
 	this->ticketCost[Plane::Business] = static_cast<size_t>(buffer);
 	this->ticketCost[Plane::Econom] = static_cast<size_t>(buffer2);
 	do {
-		сustValidatedInput("Билетов осталось бизнес/эконом: ", 2, "%d/%d", &buffer, &buffer2);
+		сustValidatedInput("Tickets left business/econom: ", 2, "%d/%d", &buffer, &buffer2);
 	} while (buffer < 0 || buffer2 < 0);
 	this->ticketsCnt[Plane::Business] = static_cast<size_t>(buffer);
 	this->ticketsCnt[Plane::Econom] = static_cast<size_t>(buffer2);
 	this->planeCapacity = this->ticketsCnt[Plane::Business] + this->ticketsCnt[Plane::Econom];
-	this->departureTime.readLoop("Время отправления(чч:мм): ");
-	this->departureDate.readLoop("Дата отправления(дд.мм.гг): ");
-	this->arrivalTime.readLoop("Время прибытия(чч:мм): ");
-	std::cout << "Пункт назначения: ";
+	this->departureTime.readLoop("Departure time(hh:mm): ");
+	this->departureDate.readLoop("Departure date(dd.mm.yy): ");
+	this->arrivalTime.readLoop("Arrival time(hh:mm): ");
+	std::cout << "Destination: ";
 	std::getline(std::cin, this->destination);
-	std::cout << "Тип самолета: ";
+	std::cout << "Plane type: ";
 	std::getline(std::cin, this->type);
 	this->isEmpty = false;
 }
 
 bool Plane::sell(size_t amount, Plane::TicketTypes ticketType) {
 	if (!this->ticketsCnt[ticketType])
-		return std::cout << "[!] Билетов класса " << this->typesArray[ticketType] << " нет в наличии, но имеется " << this->ticketsCnt[1 - ticketType] << " билетов класса " << this->typesArray[1 - ticketType] << '\n', false;
+		return std::cout << "[!] There are no " << this->typesArray[ticketType] << " tickets, but " << this->ticketsCnt[1 - ticketType] << " tickets of " << this->typesArray[1 - ticketType] << " class are left\n", false;
 	if (this->ticketsCnt[ticketType] < amount)
-		return std::cout << "[!] Стольких билетов нет в наличии. Число оставшихся билетов класса " << this->typesArray[ticketType] << ": " << this->ticketsCnt[ticketType] << '\n', false;
+		return std::cout << "[!] There is no tickets for requested amount. The remaining tickets of class " << this->typesArray[ticketType] << ": " << this->ticketsCnt[ticketType] << '\n', false;
 	this->ticketsCnt[ticketType] -= amount;
-	return std::cout << "Покупка совершена успешно. Сумма к оплате равна " << amount * this->ticketCost[ticketType] << '\n', true;
+	return std::cout << "Purchase successful. The price to pay is " << amount * this->ticketCost[ticketType] << '\n', true;
 }
 
 void Plane::assignPointers(std::string*& newStr, size_t*& newInt, Time*& newTime, Date*& newDate, int actionCase) {

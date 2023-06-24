@@ -15,10 +15,10 @@ class Menu
 	std::string title;
 	std::vector<std::string> lines;
 	HANDLE consoleHandle;
-	void destroy(); //Стереть меню из консоли
-	void display(); //Отобразить меню
+	void destroy();
+	void display();
 public:
 	Menu(std::string title, std::vector<std::string> lines);
-	int getResponse(); //Вернуть индекс выбранного пункта меню
+	int getResponse();
 };
 

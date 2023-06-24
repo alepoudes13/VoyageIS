@@ -12,13 +12,13 @@ void User::startModule() {
 	int actionCase;
 	enum State { Exit, View, Search, Sort, Sell };
 	std::vector<std::string> menuLines = {
-		"Назад.",
-		"Просмотр.",
-		"Поиск.",
-		"Сортировка.",
-		"Продажа билетов."
+		"Back.",
+		"Viewing.",
+		"Search.",
+		"Sorting.",
+		"Tickets selling."
 	};
-	std::string title = "--------Меню пользователя--------------------";
+	std::string title = "--------User menu----------------------------";
 	Menu menu(title, menuLines);
 
 	do {
@@ -46,24 +46,24 @@ void User::startModule() {
 
 void User::sellTickets() {
 	int index;
-	сustValidatedInput("Введите индекс самолета: ", 1, "%d", &index);
+	сustValidatedInput("Enter voyage index: ", 1, "%d", &index);
 	Plane plane = this->planeDatabase->getAtIndex(index);
 	if (plane.isObjectEmpty()) {
-		std::cout << "[!] Нет самолета с таким индексом.\n";
+		std::cout << "[!] No voyage with such an index.\n";
 		return;
 	}
 
 	enum State { Business, Econom };
 	std::vector<std::string> menuLines = {
-		"Бизнес.",
-		"Эконом."
+		"Bussiness.",
+		"Econom."
 	};
-	std::string title = "Выберите класс:";
+	std::string title = "Choose class:";
 	Menu menu(title, menuLines);
 
 	int amount, type = menu.getResponse();
 	do {
-		сustValidatedInput("Введите число билетов: ", 1, "%d", &amount);
+		сustValidatedInput("Enter tickets amount: ", 1, "%d", &amount);
 	} while (amount < 0);
 	if (plane.sell(amount, static_cast<Plane::TicketTypes>(type)))
 		this->planeDatabase->setAtIndex(index, plane);
@@ -72,8 +72,8 @@ void User::sellTickets() {
 void User::findPlanes() {
 	int actionCase;
 	enum State { Exit, Destination, Cost, DepartureDate };
-	std::vector<std::string> menuLines = {"Выход.",	"По направлению.", "По цене билета.", "По дате отправления."};
-	std::string title = "--------Меню поиска--------------------------";
+	std::vector<std::string> menuLines = {"Exit.",	"By destination.", "By cost.", "By departure date."};
+	std::string title = "--------Search menu--------------------------";
 	Menu menu(title, menuLines);
 	do {
 		actionCase = menu.getResponse();
@@ -86,7 +86,7 @@ void User::findPlanes() {
 			break;
 		case Destination:{
 			std::string destination;
-			std::cout << "Введите направление: ";
+			std::cout << "Enter destination: ";
 			std::getline(std::cin, destination);
 			if(destination == "")
 				std::getline(std::cin, destination);
@@ -95,27 +95,27 @@ void User::findPlanes() {
 		}
 		case Cost:{
 			enum State { Business, Econom };
-			std::vector<std::string> menuLines = {"Бизнес.", "Эконом."};
-			std::string title = "Выберите класс:";
+			std::vector<std::string> menuLines = {"Bussiness.", "Econom."};
+			std::string title = "Choose class:";
 			Menu menu(title, menuLines);
 
 			int cost, type = menu.getResponse();
 			do {
-				сustValidatedInput("Введите цену билета: ", 1, "%d", &cost);
+				сustValidatedInput("Enter ticket cost: ", 1, "%d", &cost);
 			} while (cost < 0);
 			results = this->planeDatabase->find(cost, static_cast<Plane::TicketTypes>(type));
 			break;
 		}
 		case DepartureDate:{
 			Date date;
-			date.readLoop("Введите дату отправления(дд.мм.гг): ");
+			date.readLoop("Enter departure date(dd.mm.yy): ");
 			results = this->planeDatabase->find(date);
 			break;
 		}
 		}
 		if (printRes) {
 			if (results.empty())
-				std::cout << "Подходящих результатов не обнаружено.\n";
+				std::cout << "No matching result found.\n";
 			else {
 				printRow(Plane(), this->planeDatabase->columnNames);
 				for (auto i : results)
@@ -129,13 +129,12 @@ void User::sortPlanes() {
 	int actionCase;
 	enum State { Exit, Destination, CostBusiness, CostEconom, DepartureDate };
 	std::vector<std::string> menuLines = {
-		"Выход.",
-		"По направлению.",
-		"По цене билета бизнес-класса.",
-		"По цене билета эконом-класса.",
-		"По дате отправления."
+		"Exit.",
+		"By destination.", 
+		"By cost.", 
+		"By departure date."
 	};
-	std::string title = "--------Меню сортировки----------------------";
+	std::string title = "--------Sorting menu-------------------------";
 	Menu menu(title, menuLines);
 
 	do {
@@ -161,7 +160,7 @@ void User::sortPlanes() {
 			break;
 		}
 		if (printRes) {
-			std::cout << "Успeшно отсортировано.\n";
+			std::cout << "Successfully sorted.\n";
 			this->planeDatabase->show();
 		}
 	} while (actionCase != Exit);

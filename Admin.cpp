@@ -8,11 +8,11 @@ void Admin::startMainModule() {
 	int actionCase;
 	enum State { Exit, Acc, Data };
 	std::vector<std::string> menuLines = {
-		"Назад.",
-		"Работа с аккаунтами.",
-		"Работа с данными."
+		"Back.",
+		"Accounts management.",
+		"Data management."
 	};
-	std::string title = "--------Меню админа--------------------------";
+	std::string title = "--------Admin menu---------------------------";
 	Menu menu(title, menuLines);
 
 	do {
@@ -36,15 +36,15 @@ void Admin::startAccountModule() {
 	int actionCase;
 	enum State { Exit, View, Add, Edit, Delete, Verify, Block };
 	std::vector<std::string> menuLines = {
-		"Назад.",
-		"Просмотр.",
-		"Добавление.",
-		"Редактирование.",
-		"Удаление.",
-		"Верификация.",
-		"Блокировка."
+		"Back.",
+		"Viewing.",
+		"Addition.",
+		"Editing.",
+		"Deletion.",
+		"Verification.",
+		"Blocking."
 	};
-	std::string title = "--------Работа с аккаунтами------------------";
+	std::string title = "--------Accounts management------------------";
 	Menu menu(title, menuLines);
 
 	do {
@@ -78,22 +78,22 @@ void Admin::startAccountModule() {
 
 void Admin::editAccount() {
 	int index;
-	сustValidatedInput("Введите индекс аккаунта: ", 1, "%d", &index);
+	сustValidatedInput("Enter account index: ", 1, "%d", &index);
 	Account acc = this->auth->getAccountDB()->getAtIndex(index);
 	if (acc.getRole() == Account::Role::EMPTY) {
-		std::cout << "[!] Нет аккаунта с таким индексом.\n";
+		std::cout << "[!] No account with such an index.\n";
 		return;
 	}
 
 	int actionCase;
 	enum State { Exit, ChangeLogin, ChangePassword, ChangeRole };
 	std::vector<std::string> menuLines = {
-		"Выход.",
-		"Изменить логин.",
-		"Изменить пароль.",
-		"Изменить уровень доступа."
+		"Exit.",
+		"Change login.",
+		"Change password.",
+		"Change access."
 	};
-	std::string title = "--------Редактирование аккаунта--------------";
+	std::string title = "--------Account edit-------------------------";
 	Menu menu(title, menuLines);
 
 	std::string input;
@@ -121,7 +121,7 @@ void Admin::editAccount() {
 void Admin::changeLogin(int index) {
 	std::string login;
 	Account acc = this->auth->getAccountDB()->getAtIndex(index);
-	std::cout << "Введите новый логин: ";
+	std::cout << "Enter new login: ";
 	std::cin >> login;
 	int checkIndex = this->auth->getAccountDB()->findByLogin(login);
 	if (checkIndex == -1) {
@@ -129,92 +129,92 @@ void Admin::changeLogin(int index) {
 		if (this->auth->getActiveAccount().compareLogin(acc))
 			this->auth->setActiveAccount(acc);
 		this->auth->getAccountDB()->setAtIndex(index, acc);
-		std::cout << "Логин успешно обновлен.\n";
+		std::cout << "Login was changed.\n";
 	}
 	else
-		std::cout << "Такой логин уже есть в базе данных.\n";
+		std::cout << "Account with this login already exists.\n";
 }
 
 void Admin::changePassword(int index) {
 	std::string password;
 	Account acc = this->auth->getAccountDB()->getAtIndex(index);
-	std::cout << "Введите новый пароль: ";
+	std::cout << "Enter new password: ";
 	this->auth->protectedInput(password);
 	acc.setPassword(password);
 	if (this->auth->getActiveAccount().compareLogin(acc))
 		this->auth->setActiveAccount(acc);
 	this->auth->getAccountDB()->setAtIndex(index, acc);
-	std::cout << "Пароль успешно обновлен.\n";
+	std::cout << "Password was changed.\n";
 }
 
 void Admin::changeRole(int index) {
 	Account acc = this->auth->getAccountDB()->getAtIndex(index);
 	if (acc.compareLogin(this->auth->getActiveAccount())) {
-		std::cout << "[!] Нельзя изменить свой уровень доступа.\n";
+		std::cout << "[!] Can't change your own access.\n";
 		return;
 	}
 	if (acc.getRole() == Account::Role::USER) {
 		acc.setRole(Account::Role::ADMIN);
 		this->auth->getAccountDB()->setAtIndex(index, acc);
-		std::cout << "Аккаунт был наделен правами администратора.\n";
+		std::cout << "Account was given admin rights.\n";
 	}
 	else if (acc.getRole() == Account::Role::ADMIN) {
 		acc.setRole(Account::Role::USER);
 		this->auth->getAccountDB()->setAtIndex(index, acc);
-		std::cout << "Аккаунт был лишен прав администратора.\n";
+		std::cout << "Account is no longer an admin.\n";
 	}
 }
 
 void Admin::deleteAccount() {
 	int index;
-	сustValidatedInput("Введите индекс аккаунта: ", 1, "%d", &index);
+	сustValidatedInput("Enter account index: ", 1, "%d", &index);
 	Account acc = this->auth->getAccountDB()->getAtIndex(index);
 	if (acc.getRole() == Account::Role::EMPTY) {
-		std::cout << "[!] Нет аккаунта с таким индексом.\n";
+		std::cout << "[!] No account with such an index.\n";
 		return;
 	}
 	if (acc.compareLogin(this->auth->getActiveAccount())) {
-		std::cout << "[!] Нельзя удалить свой аккаунт.\n";
+		std::cout << "[!] Can't delete your own account.\n";
 		return;
 	}
-	std::cout << "Вы уверены? Нажмите Enter, чтобы подтвердить удаление.";
+	std::cout << "Are you sure? Press ENTER to confirm.";
 	char ch = _getch();
 	if (ch == '\r') {
 		this->auth->getAccountDB()->deleteAtIndex(index);
-		std::cout << "\nАккаунт был удален.\n";
+		std::cout << "\nAccount was deleted.\n";
 	}
 	else
-		std::cout << "\n[!] Удаление было отменено.\n";
+		std::cout << "\n[!] Deletion was canceled.\n";
 }
 
 void Admin::verify() {
 	int index;
-	сustValidatedInput("Введите индекс аккаунта: ", 1, "%d", &index);
+	сustValidatedInput("Enter account index: ", 1, "%d", &index);
 	Account acc = this->auth->getAccountDB()->getAtIndex(index);
 	if (acc.getRole() == Account::Role::EMPTY) {
-		std::cout << "[!] Нет аккаунта с таким индексом.\n";
+		std::cout << "[!] No account with such an index.\n";
 		return;
 	}
 	acc.setAccess(true);
 	this->auth->getAccountDB()->setAtIndex(index, acc);
-	std::cout << "Аккаунт получил доступ к системе\n";
+	std::cout << "Account got system access\n";
 }
 
 void Admin::block() {
 	int index;
-	сustValidatedInput("Введите индекс аккаунта: ", 1, "%d", &index);
+	сustValidatedInput("Enter account index: ", 1, "%d", &index);
 	Account acc = this->auth->getAccountDB()->getAtIndex(index);
 	if (acc.getRole() == Account::Role::EMPTY) {
-		std::cout << "[!] Нет аккаунта с таким индексом.\n";
+		std::cout << "[!] No account with such an index.\n";
 		return;
 	}
 	if (acc.compareLogin(this->auth->getActiveAccount())) {
-		std::cout << "[!] Нельзя заблокировать свой аккаунт.\n";
+		std::cout << "[!] Can't block your own account.\n";
 		return;
 	}
 	acc.setAccess(false);
 	this->auth->getAccountDB()->setAtIndex(index, acc);
-	std::cout << "Аккаунт был лишен доступа к системе\n";
+	std::cout << "Account no longer has system access\n";
 }
 
 //----------------------------------------------
@@ -223,16 +223,16 @@ void Admin::startDataModule() {
 	int actionCase;
 	enum State { Exit, View, Add, Edit, Delete, Search, Sort, Sell };
 	std::vector<std::string> menuLines = {
-		"Назад.",
-		"Просмотр.",
-		"Добавление.",
-		"Редактирование.",
-		"Удаление.",
-		"Поиск.",
-		"Сортировка.",
-		"Продажа билетов."
+		"Back.",
+		"Viewing.",
+		"Addition.",
+		"Edition.",
+		"Deletion.",
+		"Seach.",
+		"Sorting.",
+		"Tickets selling."
 	};
-	std::string title = "--------Работа с самолетами------------------";
+	std::string title = "--------Planes management--------------------";
 	Menu menu(title, menuLines);
 
 	do {
@@ -272,34 +272,34 @@ void Admin::addPlane() {
 	plane.read();
 	int index = this->planeDatabase->addPlane(plane);
 	if (index == -1)
-		std::cout << "[!] Самолет с таким номером уже есть в базе данных.\n";
+		std::cout << "[!] Voyage with such an index already exists.\n";
 }
 
 void Admin::editPlane() {
 	int index;
-	сustValidatedInput("Введите индекс самолета: ", 1, "%d", &index);
+	сustValidatedInput("Enter voyage index: ", 1, "%d", &index);
 	Plane plane = this->planeDatabase->getAtIndex(index);
 	if (plane.isObjectEmpty()) {
-		std::cout << "[!] Нет самолета с таким индексом.\n";
+		std::cout << "[!] No voyage with such an index.\n";
 		return;
 	}
 
 	int actionCase;
 	enum State{Exit};
 	std::vector<std::string> menuLines = {
-		"Выход.",
-		"Номер.",
-		"Цена бизнес.",
-		"Цена эконом.",
-		"Билетов бизнес.",
-		"Билетов эконом.",
-		"Время отправления.",
-		"Дата отправления.",
-		"Время прибытия.",
-		"Направление.",
-		"Тип самолета."
+		"Exit.",
+		"Number.",
+		"Price bussiness.",
+		"Price econom.",
+		"Tickets bussiness.",
+		"Tickets econom.",
+		"Departure time.",
+		"Departure date.",
+		"Arrival time.",
+		"Destination.",
+		"Plane type."
 	};
-	std::string title = "--------Редактирование самолета--------------";
+	std::string title = "--------Voyage edit--------------------------";
 	Menu menu(title, menuLines);
 
 	std::string* newStr; size_t* newInt; Time* newTime; Date* newDate;
@@ -312,21 +312,21 @@ void Admin::editPlane() {
 		default:
 			plane.assignPointers(newStr, newInt, newTime, newDate, actionCase);
 			if (newStr) {
-				std::cout << "Введите новое значение поля: ", std::getline(std::cin, *newStr);
+				std::cout << "Enter new value: ", std::getline(std::cin, *newStr);
 				if (*newStr == "") std::getline(std::cin, *newStr);
 			}
 			else if (newInt) {
 				int temp;
 				do {
-					сustValidatedInput("Введите новое значение поля: ", 1, "%d", &temp);
+					сustValidatedInput("Enter new value: ", 1, "%d", &temp);
 				} while (temp < 0);
 				*newInt = temp;
 				plane.updateCapacity();
 			}
 			else if (newTime)
-				newTime->readLoop("Введите новое значение поля(чч:мм): ");
+				newTime->readLoop("Enter new value(hh:mm): ");
 			else
-				newDate->readLoop("Введите новое значение поля(чч:мм): ");
+				newDate->readLoop("Enter new value(hh:mm): ");
 			this->planeDatabase->setAtIndex(index, plane);
 			break;
 		}
@@ -335,18 +335,18 @@ void Admin::editPlane() {
 
 void Admin::deletePlane() {
 	int index;
-	сustValidatedInput("Введите индекс самолета: ", 1, "%d", &index);
+	сustValidatedInput("Enter voyage index: ", 1, "%d", &index);
 	Plane plane = this->planeDatabase->getAtIndex(index);
 	if (plane.isObjectEmpty()) {
-		std::cout << "[!] Нет самолета с таким индексом.\n";
+		std::cout << "[!] No voyage with such an index.\n";
 		return;
 	}
-	std::cout << "Вы уверены? Нажмите Enter, чтобы подтвердить удаление.";
+	std::cout << "Are you sure? Press ENTER to continue.";
 	char ch = _getch();
 	if (ch == '\r') {
 		this->planeDatabase->deleteAtIndex(index);
-		std::cout << "\nСамолет был удален.\n";
+		std::cout << "\nVoyage was deleted.\n";
 	}
 	else
-		std::cout << "\n[!] Удаление было отменено.\n";
+		std::cout << "\n[!] Deletion was canceled.\n";
 }

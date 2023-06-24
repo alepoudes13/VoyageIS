@@ -5,12 +5,12 @@
 class User {
 protected:
 	PlaneDatabase* planeDatabase;
-	void findPlanes(); //Поиск рейсов
-	void sortPlanes(); //Сортировка рейсов
-	void sellTickets(); //Продажа билетов
+	void findPlanes(); 
+	void sortPlanes(); 
+	void sellTickets(); 
 public:
 	User();
 	~User();
-	void startModule(); //Запуск модуля пользователя
+	void startModule(); 
 };
 
